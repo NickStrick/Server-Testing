@@ -32,8 +32,8 @@ describe('server.js', () => {
     })
 
     describe('Post /songs endpoint', () => {
-        it('should return status code 201', () => {
-            let response = await songDb.insert({ name: 'wow' });
+        it('should return status code 201', async () => {
+            let response = await request(server).post('/songs');
 
             expect(response.status).toBe(201);
         })
@@ -54,22 +54,21 @@ describe('server.js', () => {
     })
 
     describe('Delete /songs endpoint', () => {
-        it('should return status code 200', () => {
-            let response = await songDb.remove({ name: 'wow' });
+        it('should return status code 200', async () => {
+            let response = await request(server).delete('/songs');
 
             expect(response.status).toBe(200);
         })
 
         it('should Delete provided song by id', async () => {
-            await songDb.remove({ name: 'wow' });
-            await songDb.remove({ name: 'final countdown' });
+            await songDb.insert({ name: 'wow' });
+            await songDb.insert({ name: 'final countdown' });
             await songDb.remove(1)
             const songs = await db('songs');
 
             expect(songs).toHaveLength(1);
             expect(songs[0].name).toBe('final countdown');
         })
-
 
     })
 

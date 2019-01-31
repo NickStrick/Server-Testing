@@ -11,4 +11,24 @@ server.get('/songs', async (req, res) => {
     res.status(200).json(list);
 });
 
+server.post('/songs', async (req, res) => {
+    const { name } = req.body;
+    if (name) {
+        db.insert({ name }).then((response) => {
+            res.status(201).json(response);
+        })
+
+    } else {
+        res.status(400).end();
+    }
+});
+
+server.delete('/songs', async (req, res) => {
+    const body = req.body;
+    db.remove(body).then(response => {
+        res.status(200).json(response);
+    })
+
+});
+
 module.exports = server;

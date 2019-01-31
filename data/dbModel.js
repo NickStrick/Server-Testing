@@ -12,9 +12,14 @@ function getAll() {
 }
 
 function remove(id) {
-    return null;
+    return db('songs')
+        .where('id', id)
+        .del();
 }
 
 async function insert(song) {
-    return null;
+    const [id] = await db('songs').insert(song);
+
+    return db('songs').where({ id })
+        .first();
 }
