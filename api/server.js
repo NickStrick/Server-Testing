@@ -24,11 +24,12 @@ server.post('/songs', async (req, res) => {
 });
 
 server.delete('/songs', async (req, res) => {
-    const body = req.body;
-    db.remove(body).then(response => {
+    const { id } = req.body;
+    db.remove(id).then(response => {
         res.status(200).json(response);
     })
 
 });
-
 module.exports = server;
+server.listen(3000, () => console.log(`\n** server up on port 3000 **\n`));
+

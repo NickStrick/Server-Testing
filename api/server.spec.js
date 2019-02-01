@@ -33,8 +33,8 @@ describe('server.js', () => {
 
     describe('Post /songs endpoint', () => {
         it('should return status code 201', async () => {
-            let response = await request(server).post('/songs');
-
+            let response = await request(server).post('/songs').send({ name: 'y' });
+            // console.log(response.statusCode)
             expect(response.status).toBe(201);
         })
 
@@ -55,7 +55,8 @@ describe('server.js', () => {
 
     describe('Delete /songs endpoint', () => {
         it('should return status code 200', async () => {
-            let response = await request(server).delete('/songs');
+            await songDb.insert({ name: 'wow' });
+            let response = await request(server).delete('/songs').send({ id: 1 });
 
             expect(response.status).toBe(200);
         })
